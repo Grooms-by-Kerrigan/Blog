@@ -1,0 +1,66 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>Marcus Wyatt</h1>
+
+      <p>
+        Software developer with a passion for Rails, testing, automation, and making complex systems easier to work with.
+      </p>
+
+      <p>
+        I write about solving real-world engineering problems, improving development workflows, maintaining large applications, and helping teams build software more effectively.
+      </p>
+
+      <h3>What You'll Find Here</h3>
+
+      <p>
+        Most articles are based on challenges I've encountered while building and maintaining production applications, including:
+      </p>
+
+      <ul>
+        <li>Ruby on Rails development</li>
+        <li>RSpec and automated testing</li>
+        <li>Docker and local development environments</li>
+        <li>GitHub Actions and CI/CD pipelines</li>
+        <li>Code review and team processes</li>
+        <li>Software architecture and maintainability</li>
+        <li>Developer tooling and automation</li>
+      </ul>
+
+      <p>
+        Rather than focusing on beginner tutorials, I aim to share practical lessons, implementation details, and tradeoffs that arise when working on real software projects.
+      </p>
+
+      <h3>Recent Posts</h3>
+
+      <p>
+        Browse the latest articles for tips, lessons learned, and deep dives into the tools and practices I use every day.
+      </p>
+
+      <a href="/blog">View all posts →</a>
+      <br>
+      <br>
+
+      <h3>About Me</h3>
+
+      <p>
+        I've spent more than a decade building web applications and developer tooling. My primary expertise is Ruby on Rails, but I regularly work with Docker, AWS, TypeScript, testing frameworks, and deployment pipelines.
+      </p>
+
+      <a href="/about">Read more about me →</a>
+		</main>
+		<Footer />
+	</body>
+</html>

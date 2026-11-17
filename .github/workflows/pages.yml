@@ -2,7 +2,7 @@ name: Build and deploy Astro site to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [main, convert_to_astral]
   pull_request:
     branches: [main]
   workflow_dispatch:

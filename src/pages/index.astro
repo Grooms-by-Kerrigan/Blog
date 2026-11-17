@@ -1,66 +1,176 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import GroomCard from '../components/GroomCard.astro';
+import JournalCard from '../components/JournalCard.astro';
+import { BREEDS, SITE_DESCRIPTION, SITE_TAGLINE, SITE_TITLE } from '../consts';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPosts, url } from '../utils';
+
+const posts = await getPosts();
+const unsplash = (id: string, width: number) =>
+	`https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=85`;
+
+const breedCards = [
+	{ ...BREEDS[0], kicker: '01 / THE FLUFFY ONES', image: unsplash('photo-1517849845537-4d257902454a', 1000), alt: 'Happy fluffy dog', large: true },
+	{ ...BREEDS[1], kicker: '02 / THE CLASSICS', image: unsplash('photo-1537151625747-768eb6cf92b2', 850), alt: 'Spaniel dog portrait' },
+	{ ...BREEDS[2], kicker: '03 / LITTLE LOVES', image: unsplash('photo-1587300003388-59208cc962cb', 850), alt: 'Small dog portrait' },
+];
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>Marcus Wyatt</h1>
+<BaseLayout title={`${SITE_TITLE} | ${SITE_TAGLINE}`} description={SITE_DESCRIPTION}>
+	<section class="hero" id="home">
+		<div class="hero-copy">
+			<p class="eyebrow"><span></span> THE ART OF THE GROOM</p>
+			<h1>Every pup has<br /><em>a story.</em></h1>
+			<p class="hero-intro">
+				A collection of fresh cuts, happy faces, and the little details that make every groom one of a kind.
+			</p>
+			<div class="hero-actions">
+				<a class="button button-light" href="#gallery">Explore the gallery <span>↓</span></a>
+				<a class="text-link" href="#about">A little about me <span>↗</span></a>
+			</div>
+			<div class="hero-note">
+				<span class="paw">✳</span><span>Thoughtful grooming. Happy dogs.<br /><b>One beautiful transformation at a time.</b></span>
+			</div>
+		</div>
+		<div class="hero-photo">
+			<img
+				src="https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=1300&q=88"
+				alt="Golden retriever with a beautiful, fluffy coat"
+			/>
+			<div class="photo-stamp"><span>THE</span><strong>GOOD<br />DOG</strong><span>CLUB ✳</span></div>
+			<div class="hero-caption"><span>01 / THE GROOMING COLLECTION</span><span>MADE WITH LOVE ♡</span></div>
+		</div>
+		<div class="hero-bottom"><span>SCROLL TO EXPLORE</span><span class="scroll-line"></span><span>EST. WITH LOVE</span></div>
+	</section>
 
-      <p>
-        Software developer with a passion for Rails, testing, automation, and making complex systems easier to work with.
-      </p>
+	<section class="intro section-wrap" id="about">
+		<div class="intro-kicker">WELCOME TO MY LITTLE CORNER</div>
+		<div class="intro-main">
+			<h2>More than a haircut.<br /><em>It's their moment.</em></h2>
+			<p>
+				Every dog that steps onto the grooming table has their own personality, coat, and style. This journal is where I
+				celebrate the finished looks, remember the details, and share a little of the process behind each one.
+			</p>
+		</div>
+		<div class="intro-flower">✳</div>
+	</section>
 
-      <p>
-        I write about solving real-world engineering problems, improving development workflows, maintaining large applications, and helping teams build software more effectively.
-      </p>
+	<section class="gallery-section section-wrap" id="gallery">
+		<div class="section-heading">
+			<div>
+				<p class="eyebrow dark"><span></span> THE PORTFOLIO</p>
+				<h2>Fresh from <em>the table.</em></h2>
+			</div>
+			<a class="underlined-link" href={url('blog/')}>View all journal entries ↗</a>
+		</div>
+		<div class="filter-row">
+			<div class="filter-chips" id="gallery-filters">
+				<button class="chip selected" data-filter="All">All grooms</button>
+				{BREEDS.map((breed) => <button class="chip" data-filter={breed.filter}>{breed.label}</button>)}
+			</div>
+			<span class="result-count" id="result-count"></span>
+		</div>
+		<div class="gallery-grid" id="gallery-grid">
+			{posts.map((post) => <GroomCard post={post} />)}
+			<div class="empty-state" hidden>No grooms in this collection yet.</div>
+		</div>
+	</section>
 
-      <h3>What You'll Find Here</h3>
+	<section class="transform-section" id="transformations">
+		<div class="transform-inner section-wrap">
+			<div class="transform-copy">
+				<p class="eyebrow"><span></span> THE BIG REVEAL</p>
+				<h2>From scruffy<br />to <em>so lovely.</em></h2>
+				<p>
+					There is nothing quite like seeing a pup's personality shine through after a fresh groom. Take a peek at the
+					transformations.
+				</p>
+				<a class="button button-outline" href={url('blog/')}>See the transformations <span>↗</span></a>
+			</div>
+			<div class="transform-feature">
+				<div class="before-after">
+					<div class="ba-image">
+						<img src={unsplash('photo-1543466835-00a7907e9de1', 850)} alt="Dog before grooming" loading="lazy" /><span>BEFORE</span>
+					</div>
+					<div class="ba-image">
+						<img src={unsplash('photo-1583337130417-3346a1be7dee', 850)} alt="Dog after grooming" loading="lazy" /><span>AFTER</span>
+					</div>
+				</div>
+				<div class="ba-caption"><span>THE TRANSFORMATION EDIT</span><span>✳ A FRESH START</span></div>
+			</div>
+		</div>
+	</section>
 
-      <p>
-        Most articles are based on challenges I've encountered while building and maintaining production applications, including:
-      </p>
+	<section class="breeds-section section-wrap" id="breeds">
+		<div class="section-heading">
+			<div>
+				<p class="eyebrow dark"><span></span> FIND YOUR FAVORITE</p>
+				<h2>A groom for <em>every breed.</em></h2>
+			</div>
+			<p class="heading-aside">A growing collection of coats,<br />cuts, and characters.</p>
+		</div>
+		<div class="breed-grid">
+			{
+				breedCards.map((card) => (
+					<a class:list={['breed-card', { 'breed-large': card.large }]} href="#gallery" data-breed-link={card.filter}>
+						<img src={card.image} alt={card.alt} loading="lazy" />
+						<span class="breed-overlay">
+							<small>{card.kicker}</small>
+							<strong>{card.label}</strong>
+							<i>Explore grooms ↗</i>
+						</span>
+					</a>
+				))
+			}
+		</div>
+	</section>
 
-      <ul>
-        <li>Ruby on Rails development</li>
-        <li>RSpec and automated testing</li>
-        <li>Docker and local development environments</li>
-        <li>GitHub Actions and CI/CD pipelines</li>
-        <li>Code review and team processes</li>
-        <li>Software architecture and maintainability</li>
-        <li>Developer tooling and automation</li>
-      </ul>
+	<section class="journal-section" id="journal">
+		<div class="section-wrap">
+			<div class="section-heading">
+				<div>
+					<p class="eyebrow"><span></span> NOTES FROM THE GROOMING TABLE</p>
+					<h2>The grooming <em>journal.</em></h2>
+				</div>
+				<p class="heading-aside">The photos, the process,<br />and all the little details.</p>
+			</div>
+			<div class="journal-grid">
+				{posts.slice(0, 3).map((post) => <JournalCard post={post} />)}
+			</div>
+		</div>
+	</section>
 
-      <p>
-        Rather than focusing on beginner tutorials, I aim to share practical lessons, implementation details, and tradeoffs that arise when working on real software projects.
-      </p>
+	<section class="closing section-wrap">
+		<div class="closing-flower">✳</div>
+		<p class="eyebrow dark">THAT'S A WRAP</p>
+		<h2>Good dogs. Great grooms.<br /><em>Endless reasons to smile.</em></h2>
+		<p>Thanks for stopping by and celebrating these sweet pups with me.</p>
+		<a class="button button-dark" href="#gallery">Back to the gallery ↑</a>
+	</section>
+</BaseLayout>
 
-      <h3>Recent Posts</h3>
+<script>
+	const cards = document.querySelectorAll<HTMLElement>('#gallery-grid .groom-card');
+	const chips = document.querySelectorAll<HTMLButtonElement>('#gallery-filters .chip');
+	const emptyState = document.querySelector<HTMLElement>('#gallery-grid .empty-state')!;
+	const resultCount = document.querySelector<HTMLElement>('#result-count')!;
 
-      <p>
-        Browse the latest articles for tips, lessons learned, and deep dives into the tools and practices I use every day.
-      </p>
+	function applyFilter(filter: string) {
+		let visible = 0;
+		cards.forEach((card) => {
+			const show = filter === 'All' || card.dataset.breed === filter;
+			card.hidden = !show;
+			if (show) visible++;
+		});
+		chips.forEach((chip) => chip.classList.toggle('selected', chip.dataset.filter === filter));
+		emptyState.hidden = visible > 0;
+		resultCount.textContent = `${visible} ${visible === 1 ? 'GROOM' : 'GROOMS'}`;
+	}
 
-      <a href="/blog">View all posts →</a>
-      <br>
-      <br>
+	chips.forEach((chip) => chip.addEventListener('click', () => applyFilter(chip.dataset.filter!)));
+	document
+		.querySelectorAll<HTMLElement>('[data-breed-link]')
+		.forEach((link) => link.addEventListener('click', () => applyFilter(link.dataset.breedLink!)));
 
-      <h3>About Me</h3>
-
-      <p>
-        I've spent more than a decade building web applications and developer tooling. My primary expertise is Ruby on Rails, but I regularly work with Docker, AWS, TypeScript, testing frameworks, and deployment pipelines.
-      </p>
-
-      <a href="/about">Read more about me →</a>
-		</main>
-		<Footer />
-	</body>
-</html>
+	applyFilter('All');
+</script>

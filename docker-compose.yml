@@ -1,7 +1,7 @@
 services:
   web:
     build: .
-    image: "blog:${BLOG_TAG:-1}"
+    image: "groom_blog:${BLOG_TAG:-1}"
     volumes:
       - .:/App
       - node_modules:/App/node_modules

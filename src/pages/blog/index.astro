@@ -2,24 +2,28 @@
 import JournalCard from '../../components/JournalCard.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getPosts } from '../../utils';
+import { getPosts, slugify, url } from '../../utils';
 
 const posts = await getPosts();
+const categories = [...new Set(posts.map((post) => post.data.category))].sort();
 ---
-
 <BaseLayout title={`The Journal | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
-	<section class="journal-section journal-page">
-		<div class="section-wrap">
-			<div class="section-heading">
-				<div>
-					<p class="eyebrow dark"><span></span> NOTES FROM THE GROOMING TABLE</p>
-					<h2>The grooming <em>journal.</em></h2>
-				</div>
-				<p class="heading-aside">The photos, the process,<br />and all the little details.</p>
-			</div>
-			<div class="journal-grid">
-				{posts.map((post) => <JournalCard post={post} />)}
-			</div>
-		</div>
-	</section>
+  <section class="journal-section journal-page">
+    <div class="section-wrap">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow dark"><span></span> NOTES FROM THE GROOMING TABLE</p>
+          <h2>The grooming <em>journal.</em></h2>
+        </div>
+        <p class="heading-aside">The photos, the process,<br />and all the little details.</p>
+      </div>
+      <nav class="category-list" aria-label="Browse journal categories">
+        <span>EXPLORE BY TOPIC</span>
+        {categories.map((category) => <a href={url(`category/${slugify(category)}/`)}>{category} ↗</a>)}
+      </nav>
+      <div class="journal-grid">
+        {posts.map((post) => <JournalCard post={post} />)}
+      </div>
+    </div>
+  </section>
 </BaseLayout>

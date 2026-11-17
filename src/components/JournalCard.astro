@@ -12,7 +12,7 @@ const { title, description, breedName, category, pubDate, heroImage, draft } = p
 ---
 
 <a class="journal-card" href={url(`blog/${post.id}/`)}>
-	<PostImage src={heroImage} alt={breedName} width={700} />
+	<PostImage src={heroImage} alt={breedName ?? title} width={700} />
 	<div class="journal-card-copy">
 		<p class="eyebrow">
 			{draft && 'DRAFT · '}

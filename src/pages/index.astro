@@ -5,7 +5,8 @@ import { BREEDS, SITE_DESCRIPTION, SITE_TAGLINE, SITE_TITLE } from '../consts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getPosts, url } from '../utils';
 
-const posts = await getPosts();
+const allPosts = await getPosts();
+const posts = allPosts.filter((post) => post.data.featured || post.data.breed).slice(0, 6);
 const unsplash = (id: string, width: number) =>
 	`https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=85`;
 
@@ -58,8 +59,8 @@ const breedCards = [
 	<section class="gallery-section section-wrap" id="gallery">
 		<div class="section-heading">
 			<div>
-				<p class="eyebrow dark"><span></span> THE PORTFOLIO</p>
-				<h2>Fresh from <em>the table.</em></h2>
+				<p class="eyebrow dark"><span></span> THE LATEST STORIES</p>
+				<h2>Fresh from <em>the journal.</em></h2>
 			</div>
 			<a class="underlined-link" href={url('blog/')}>View all journal entries ↗</a>
 		</div>

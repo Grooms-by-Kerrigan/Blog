@@ -6,9 +6,9 @@ import { defineConfig, fontProviders } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	// Published as a GitHub Pages project site at https://grooms-by-kerrigan.github.io/Blog/
+	// Published as a GitHub Pages project site at https://grooms-by-kerrigan.github.io/
 	site: 'https://grooms-by-kerrigan.github.io',
-	base: '/Blog',
+	base: '/',
 	integrations: [mdx(), sitemap()],
 	fonts: [
 		{

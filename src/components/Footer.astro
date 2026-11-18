@@ -1,0 +1,12 @@
+---
+import { SITE_TITLE } from '../consts';
+import Brand from './Brand.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+	<Brand class="footer-brand" />
+	<span>MADE WITH LOVE &amp; A LITTLE DOG HAIR <b>✳</b></span>
+	<span>© {year} {SITE_TITLE.toUpperCase()}</span>
+</footer>

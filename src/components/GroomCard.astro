@@ -1,0 +1,25 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate, url } from '../utils';
+import PostImage from './PostImage.astro';
+
+interface Props {
+	post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { title, breed, breedName, category, pubDate, heroImage, draft } = post.data;
+---
+
+<a class="groom-card" href={url(`blog/${post.id}/`)} data-breed={breed}>
+	<div class="groom-image">
+		<PostImage src={heroImage} alt={`${breedName} groom`} width={700} />
+		<span class="image-tag">{draft ? 'Draft' : category}</span>
+		<span class="card-arrow">↗</span>
+	</div>
+	<div class="groom-meta">
+		<h3>{title}</h3>
+		<time datetime={pubDate.toISOString()}>{formatDate(pubDate).toUpperCase()}</time>
+	</div>
+	<div class="groom-sub">{breedName} · {category}</div>
+</a>

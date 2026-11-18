@@ -1,56 +1,51 @@
 # Grooms by Kerrigan
 
-A lightweight, responsive grooming portfolio and photo journal designed for GitHub Pages.
+An editorial grooming journal built with [Astro](https://astro.build), Markdown/MDX, and deployed to GitHub Pages.
 
-## Deploy to `https://grooms-by-kerrigan.github.io/Blog/`
+## Local development
 
-1. Create or open the GitHub repository named **Blog** under the `grooms-by-kerrigan` account.
-2. Add the contents of this project to the **root** of that repository (the `.github` folder and `.nojekyll` file are included).
-3. Push the files to the `main` branch.
-4. In GitHub, open **Settings → Pages** and set **Build and deployment → Source** to **GitHub Actions**.
-5. The included workflow deploys the site on every push to `main`. Watch the **Actions** tab until “Deploy Grooms by Kerrigan to GitHub Pages” succeeds.
-
-This is a plain static site, so there is no build command or package installation required. It is designed to live at the `/Blog/` project-site path; all local asset references are relative.
-
-## Change the colors globally
-
-Open `styles.css` and edit the CSS custom properties at the top in `:root`:
-
-The rest of the stylesheet uses these variables, so changing a value updates the theme throughout the site.
-
-## Add a grooming post
-
-Edit `posts.js` and add an object to `window.GROOM_POSTS`. Example:
-
-```js
-{
-  id: "molly-summer-trim",
-  title: "Molly's Summer Trim",
-  breed: "Doodle", // Doodle, Spaniel, or Small breed (used by filters)
-  breedName: "Goldendoodle",
-  date: "November 16, 2026",
-  category: "Full groom",
-  excerpt: "A short description of the groom.",
-  image: "assets/images/molly-after.jpg",
-  before: "assets/images/molly-before.jpg", // optional
-  after: "assets/images/molly-after.jpg",   // optional
-  notes: {
-    "Body": "#4F blade",
-    "Legs": "Scissored and blended",
-    "Face": "Rounded teddy-bear finish",
-    "Tools": "Slicker, metal comb, curved shears"
-  }
-}
-```
-
-Upload your photos into `assets/images/` and use those relative paths. The example entries use sample stock photography; replace those image URLs and grooming details with your own photos and notes before publishing.
-
-## Local preview
-
-Because this is a static site, you can open `index.html` directly, or run a local server from the project root:
+Requires Node.js 22.12 or newer.
 
 ```sh
-python3 -m http.server 8000
+npm ci
+npm run dev
 ```
 
-Then visit `http://localhost:8000`.
+Create a production build with `npm run build` and preview it with `npm run preview`.
+
+## Publishing an article
+
+Add a `.md` or `.mdx` file to `src/content/blog/`. The filename becomes its URL slug.
+
+```md
+---
+title: "A fresh start for spring"
+description: "A short introduction shown on article cards and search previews."
+pubDate: 2026-11-16
+category: "Grooming inspiration"
+tags: ["coat care", "seasonal"]
+featured: true
+heroImage: "https://example.com/your-photo.jpg"
+draft: false
+---
+
+Your article begins here. Use Markdown headings, links, lists, and images as needed.
+```
+
+Optional frontmatter includes `updatedDate`, `breed` (`Doodle`, `Spaniel`, or `Small breed`), `breedName`, `before`, `after`, and a `notes` map for grooming details. Posts are ordered newest first. Drafts are excluded from production builds.
+
+Use a local image in `src/assets/` for Astro image optimization, or a fully qualified image URL for a remotely hosted photo.
+
+## Editorial categories
+
+Suggested categories include Grooming inspiration, Breed guides, Tips & techniques, Before & after, Grooming education, and Studio journal. Categories and tags are editorial metadata rather than fixed page types.
+
+## Design
+
+Edit the CSS custom properties at the top of `src/styles/global.css` to update the emerald-green palette, typography, and content width.
+
+## GitHub Pages
+
+The site is configured for the project URL `https://grooms-by-kerrigan.github.io/Blog/` in `astro.config.mjs`. The GitHub Actions workflow builds the site on pull requests targeting `main`, and deploys the generated `dist/` folder only after pushes to `main`.
+
+Set the repository's Pages source to **GitHub Actions** under **Settings → Pages**.

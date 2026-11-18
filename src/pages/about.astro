@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+---
+
+<BaseLayout title={`About | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
+  <section class="intro section-wrap about-page">
+    <div class="intro-kicker">A LITTLE ABOUT THIS JOURNAL</div>
+    <div class="intro-main">
+      <h2>Good dogs deserve<br /><em>good stories.</em></h2>
+      <div>
+        <p>This is Grooms by Kerrigan: a journal celebrating the craft, creativity, and care behind dog grooming.</p>
+        <p>Here you'll find grooming inspiration, breed and coat notes, practical care tips, before-and-after transformations, and little moments from the grooming table. Every dog is different, and the best results start with their comfort, coat condition, and personality.</p>
+        <p>Thanks for being here. Settle in, explore the stories, and enjoy a little extra fluff.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

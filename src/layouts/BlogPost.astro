@@ -1,0 +1,39 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import PostImage from '../components/PostImage.astro';
+import { SITE_TITLE } from '../consts';
+import { formatDate, url } from '../utils';
+import BaseLayout from './BaseLayout.astro';
+
+type Props = CollectionEntry<'blog'>['data'];
+const { title, description, pubDate, updatedDate, breedName, category, tags, heroImage, before, after, notes } = Astro.props;
+const noteEntries = Object.entries(notes);
+---
+
+<BaseLayout title={`${title} | ${SITE_TITLE}`} description={description} image={heroImage}>
+  <article class="post section-wrap">
+    <a class="underlined-link post-back" href={url('blog/')}>← Back to the journal</a>
+    <PostImage class="post-hero" src={heroImage} alt={title} width={1400} loading="eager" />
+    <div class="post-body">
+      <p class="eyebrow dark">
+        <time datetime={pubDate.toISOString()}>{formatDate(pubDate).toUpperCase()}</time> · {category.toUpperCase()}
+      </p>
+      <h1>{title}</h1>
+      {updatedDate && <p class="post-updated">Updated <time datetime={updatedDate.toISOString()}>{formatDate(updatedDate)}</time></p>}
+      <p class="post-lede">{description}</p>
+      {breedName && <p><b>Breed:</b> {breedName}</p>}
+      {tags?.length > 0 && <p class="post-tags">{tags.map((tag) => <span>{tag}</span>)}</p>}
+      {noteEntries.length > 0 && <div class="notes-panel">
+        <h3>Grooming notes</h3>
+        <div class="notes-list">
+          {noteEntries.map(([label, value]) => <div class="note-item"><small>{label.toUpperCase()}</small><strong>{value}</strong></div>)}
+        </div>
+      </div>}
+      {before && after && <div class="post-before-after">
+        <div><PostImage src={before} alt="Before grooming" width={700} /><small>BEFORE</small></div>
+        <div><PostImage src={after} alt="After grooming" width={700} /><small>AFTER</small></div>
+      </div>}
+      <div class="post-content"><slot /></div>
+    </div>
+  </article>
+</BaseLayout>

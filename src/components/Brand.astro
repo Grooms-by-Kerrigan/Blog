@@ -1,0 +1,15 @@
+---
+import { SITE_TAGLINE, SITE_TITLE } from '../consts';
+import { url } from '../utils';
+
+interface Props {
+	class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<a class:list={['brand', className]} href={url()} aria-label={`${SITE_TITLE} home`}>
+	<span class="brand-mark">g<span>✳</span></span>
+	<span class="brand-copy"><strong>{SITE_TITLE}</strong><small>{SITE_TAGLINE.toUpperCase()}</small></span>
+</a>

@@ -1,0 +1,42 @@
+---
+import { url } from '../utils';
+import Brand from './Brand.astro';
+
+const home = url();
+const isHome = Astro.url.pathname.replace(/\/$/, '') === home.replace(/\/$/, '');
+const isJournal = Astro.url.pathname.startsWith(url('blog'));
+
+const links = [
+	{ href: `${home}#home`, label: 'Home', active: isHome },
+	{ href: `${home}#gallery`, label: 'Gallery' },
+	{ href: `${home}#transformations`, label: 'Before & After' },
+	{ href: `${home}#breeds`, label: 'Browse by Breed' },
+	{ href: url('blog/'), label: 'Journal', active: isJournal },
+];
+---
+
+<div class="announcement"><span>✦</span> A little fluff. A lot of love. <span>✦</span></div>
+<header class="site-header">
+	<Brand />
+	<button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+	<nav class="main-nav" aria-label="Main navigation">
+		{links.map((link) => <a href={link.href} class:list={{ active: link.active }}>{link.label}</a>)}
+	</nav>
+	<a class="header-cta" href={url('blog/')}>Explore the journal <span>↗</span></a>
+</header>
+
+<script>
+	const menuToggle = document.querySelector<HTMLButtonElement>('.menu-toggle')!;
+	const nav = document.querySelector<HTMLElement>('.main-nav')!;
+
+	menuToggle.addEventListener('click', () => {
+		const open = nav.classList.toggle('open');
+		menuToggle.setAttribute('aria-expanded', String(open));
+	});
+	nav.querySelectorAll('a').forEach((link) =>
+		link.addEventListener('click', () => {
+			nav.classList.remove('open');
+			menuToggle.setAttribute('aria-expanded', 'false');
+		}),
+	);
+</script>

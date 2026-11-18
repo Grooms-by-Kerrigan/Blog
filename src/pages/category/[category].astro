@@ -1,0 +1,34 @@
+---
+import JournalCard from '../../components/JournalCard.astro';
+import { SITE_TITLE } from '../../consts';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPosts, slugify, url } from '../../utils';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  const categories = [...new Set(posts.map((post) => post.data.category))];
+  return categories.map((category) => ({
+    params: { category: slugify(category) },
+    props: { category, posts: posts.filter((post) => post.data.category === category) },
+  }));
+}
+
+const { category, posts } = Astro.props;
+---
+<BaseLayout title={`${category} | ${SITE_TITLE}`} description={`Articles and stories filed under ${category}.`}>
+  <section class="journal-section journal-page">
+    <div class="section-wrap">
+      <a class="underlined-link post-back" href={url('blog/')}>← All journal entries</a>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow dark"><span></span> BROWSE BY TOPIC</p>
+          <h2>{category}<em>.</em></h2>
+        </div>
+        <p class="heading-aside">{posts.length} {posts.length === 1 ? 'story' : 'stories'} in this collection.</p>
+      </div>
+      <div class="journal-grid">
+        {posts.map((post) => <JournalCard post={post} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
